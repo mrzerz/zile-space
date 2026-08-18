@@ -2,19 +2,74 @@
 
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Shuffle, ExternalLink } from "lucide-react";
+import { Shuffle, ExternalLink, Star } from "lucide-react";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
 
 const LINE_STORE_URL = "https://store.line.me/stickershop/author/6180514/zh-Hant";
 
-const moods = [
+type MoodCardData = {
+  packName: string;
+  scenario: string;
+  stars: number;
+};
+
+type MoodEntry = {
+  key: string;
+  emoji: string;
+  label: string;
+  desc: string;
+  stickers: { s: string; i: number }[];
+  cards: MoodCardData[];
+  color: string;
+};
+
+function MoodCard({ card, color }: { card: MoodCardData; color: string }) {
+  return (
+    <motion.div
+      whileHover={{ scale: 1.04 }}
+      whileFocus={{ scale: 1.04 }}
+      transition={{ type: "spring", stiffness: 300, damping: 20 }}
+      className="shrink-0 w-52 rounded-2xl border border-slate-700 bg-slate-900 p-4 flex flex-col gap-2 cursor-pointer focus:outline-none hover:border-indigo-500/60 transition-colors"
+      tabIndex={0}
+    >
+      <p className="text-white text-sm font-semibold leading-snug">{card.packName}</p>
+      <p className="text-slate-400 text-xs leading-relaxed">{card.scenario}</p>
+      <div className="flex gap-0.5 mt-auto pt-1">
+        {Array.from({ length: 5 }).map((_, i) => (
+          <Star
+            key={i}
+            size={12}
+            className={i < card.stars ? "text-amber-400 fill-amber-400" : "text-slate-600"}
+          />
+        ))}
+      </div>
+      <a
+        href={LINE_STORE_URL}
+        target="_blank"
+        rel="noopener noreferrer"
+        onClick={(e) => e.stopPropagation()}
+        className={`mt-1 text-xs font-semibold text-center py-2 rounded-xl bg-gradient-to-r ${color} text-white flex items-center justify-center gap-1.5`}
+      >
+        <ExternalLink size={11} />
+        LINE 商店
+      </a>
+    </motion.div>
+  );
+}
+
+const moods: MoodEntry[] = [
   {
     key: "calm",
     emoji: "😎",
     label: "穩住",
     desc: "一切都在掌控中（假的）",
     stickers: [{ s: "s1", i: 1 }, { s: "s2", i: 3 }, { s: "s3", i: 5 }],
+    cards: [
+      { packName: "太空貓咪日常 Vol.1", scenario: "面對挑戰時裝作沒問題", stars: 4 },
+      { packName: "太空貓咪日常 Vol.2", scenario: "被問到有沒有問題時", stars: 4 },
+      { packName: "太空貓咪日常 Vol.3", scenario: "宇宙崩塌但我很穩", stars: 5 },
+    ],
     color: "from-blue-600 to-cyan-600",
   },
   {
@@ -23,6 +78,11 @@ const moods = [
     label: "無言",
     desc: "說什麼都多餘",
     stickers: [{ s: "s1", i: 4 }, { s: "s2", i: 7 }, { s: "s3", i: 2 }],
+    cards: [
+      { packName: "太空貓咪日常 Vol.1", scenario: "主管說又要開會的瞬間", stars: 5 },
+      { packName: "太空貓咪日常 Vol.2", scenario: "聽到「簡單改一下」時", stars: 5 },
+      { packName: "太空貓咪日常 Vol.3", scenario: "無法回應人類邏輯時", stars: 4 },
+    ],
     color: "from-zinc-600 to-slate-600",
   },
   {
@@ -31,6 +91,11 @@ const moods = [
     label: "崩潰",
     desc: "今天到底發生了什麼",
     stickers: [{ s: "s1", i: 9 }, { s: "s2", i: 11 }, { s: "s3", i: 6 }],
+    cards: [
+      { packName: "太空貓咪日常 Vol.1", scenario: "截止日前一小時", stars: 5 },
+      { packName: "太空貓咪日常 Vol.2", scenario: "已讀不回了三天之後", stars: 4 },
+      { packName: "太空貓咪日常 Vol.3", scenario: "靈魂準備離體的時候", stars: 5 },
+    ],
     color: "from-rose-600 to-pink-600",
   },
   {
@@ -39,6 +104,11 @@ const moods = [
     label: "沒電",
     desc: "靈魂已部分出竅",
     stickers: [{ s: "s1", i: 13 }, { s: "s2", i: 15 }, { s: "s3", i: 8 }],
+    cards: [
+      { packName: "太空貓咪日常 Vol.1", scenario: "下午三點後的每一刻", stars: 5 },
+      { packName: "太空貓咪日常 Vol.2", scenario: "第五個小時的會議中", stars: 5 },
+      { packName: "太空貓咪日常 Vol.3", scenario: "精神電量 1% 時", stars: 5 },
+    ],
     color: "from-violet-600 to-purple-600",
   },
   {
@@ -47,6 +117,11 @@ const moods = [
     label: "看戲",
     desc: "這個跟我沒關係（才怪）",
     stickers: [{ s: "s2", i: 17 }, { s: "s3", i: 19 }, { s: "s1", i: 21 }],
+    cards: [
+      { packName: "太空貓咪日常 Vol.1", scenario: "別人的麻煩終於來了", stars: 4 },
+      { packName: "太空貓咪日常 Vol.2", scenario: "群組發生衝突時", stars: 4 },
+      { packName: "太空貓咪日常 Vol.3", scenario: "宇宙審判降臨他人", stars: 3 },
+    ],
     color: "from-amber-500 to-orange-500",
   },
   {
@@ -55,6 +130,11 @@ const moods = [
     label: "想逃",
     desc: "宇宙飛船在哪裡",
     stickers: [{ s: "s1", i: 23 }, { s: "s2", i: 20 }, { s: "s3", i: 24 }],
+    cards: [
+      { packName: "太空貓咪日常 Vol.1", scenario: "逃離星球的瞬間", stars: 5 },
+      { packName: "太空貓咪日常 Vol.2", scenario: "中途放棄的藝術", stars: 4 },
+      { packName: "太空貓咪日常 Vol.3", scenario: "最後的宇宙逃脫", stars: 4 },
+    ],
     color: "from-indigo-600 to-violet-600",
   },
 ];
@@ -84,6 +164,7 @@ export function StickerMood() {
           <p className="text-slate-400 text-lg">選一個最像你現在狀態的，喵喵幫你找對應貼圖。</p>
         </motion.div>
 
+        {/* Mood buttons */}
         <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 mb-10">
           {moods.map((m, i) => (
             <motion.button
@@ -107,6 +188,7 @@ export function StickerMood() {
           ))}
         </div>
 
+        {/* Result panel */}
         <AnimatePresence mode="wait">
           {mood ? (
             <motion.div
@@ -117,6 +199,7 @@ export function StickerMood() {
               transition={{ duration: 0.3 }}
               className="rounded-3xl overflow-hidden border border-slate-700"
             >
+              {/* Header */}
               <div className={`bg-gradient-to-r ${mood.color} px-7 py-5 flex items-center gap-3`}>
                 <span className="text-3xl">{mood.emoji}</span>
                 <div>
@@ -125,8 +208,10 @@ export function StickerMood() {
                 </div>
                 <p className="ml-auto text-white/60 text-sm hidden sm:block">喵喵幫你推薦 3 張</p>
               </div>
-              <div className="bg-slate-900 px-7 py-6">
-                <div className="grid grid-cols-3 gap-4 mb-6">
+
+              <div className="bg-slate-900 px-7 py-6 space-y-6">
+                {/* Sticker preview grid */}
+                <div className="grid grid-cols-3 gap-4">
                   {mood.stickers.map((s, i) => (
                     <motion.div
                       key={i}
@@ -146,14 +231,28 @@ export function StickerMood() {
                     </motion.div>
                   ))}
                 </div>
-                <div className="flex flex-col sm:flex-row items-center gap-3">
+
+                {/* Task 2.2 — MoodCard horizontal scroll strip */}
+                <div className="overflow-x-auto pb-2 -mx-1 px-1 scrollbar-hide">
+                  <div className="flex gap-3" style={{ width: "max-content" }}>
+                    {mood.cards.map((card, i) => (
+                      <MoodCard key={i} card={card} color={mood.color} />
+                    ))}
+                  </div>
+                </div>
+
+                {/* Actions */}
+                <div className="flex flex-col sm:flex-row items-center gap-3 pt-2 border-t border-slate-800">
                   <Button size="sm" className={`gap-2 bg-gradient-to-r ${mood.color} border-0 text-white`} asChild>
                     <a href={LINE_STORE_URL} target="_blank" rel="noopener noreferrer">
                       <ExternalLink size={14} />
                       去 LINE 商店取得貼圖
                     </a>
                   </Button>
-                  <button onClick={() => setSelected(null)} className="text-sm text-slate-500 hover:text-slate-300 transition-colors flex items-center gap-1.5">
+                  <button
+                    onClick={() => setSelected(null)}
+                    className="text-sm text-slate-500 hover:text-slate-300 transition-colors flex items-center gap-1.5"
+                  >
                     <Shuffle size={13} />
                     重新選擇
                   </button>

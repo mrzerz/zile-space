@@ -1,10 +1,24 @@
 "use client";
 
+import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { Rocket, Star, Zap } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 const LINE_STORE_URL = "https://store.line.me/stickershop/author/6180514/zh-Hant";
+
+const QUOTE_POOL: string[] = [
+  "我只是一隻貓，沒辦法理解為什麼要開會。",
+  "宇宙那麼大，偏偏地球有週一。",
+  "任務紀錄第 07 號：今天人類說「沒什麼」，但明顯有什麼。",
+  "觀察地球第 312 天。還是不懂下午茶為什麼要提前預訂。",
+  "報告：我嘗試了人類稱為「截止日」的東西。不推薦。",
+  "剛穿越了一個星系。比上午的會議輕鬆多了。",
+  "地球的重力比喵喵星強，但工作的重量更重。",
+  "今天有人說「快速確認一下」，這件事花了九十分鐘。",
+  "我不是不努力，我只是正在省電。",
+  "收到，但靈魂沒有收到。",
+];
 
 const floatingEmojis = [
   { emoji: "🚀", x: "10%", y: "20%", delay: 0 },
@@ -16,11 +30,19 @@ const floatingEmojis = [
 ];
 
 export function StickerHero() {
+  const [quote, setQuote] = useState<string | null>(null);
+
+  useEffect(() => {
+    if (QUOTE_POOL.length === 0) return;
+    const idx = Math.floor(Math.random() * QUOTE_POOL.length);
+    setQuote(QUOTE_POOL[idx]);
+  }, []);
+
   return (
     <section className="relative min-h-screen flex flex-col items-center justify-center px-4 pt-24 pb-16 overflow-hidden">
-      {/* Space background gradient */}
+      {/* Space background */}
       <div className="absolute inset-0 pointer-events-none">
-        <div className="absolute top-0 left-0 right-0 h-full bg-gradient-to-b from-slate-950 via-indigo-950/50 to-zinc-950 dark:from-slate-950 dark:via-indigo-950/50 dark:to-zinc-950" />
+        <div className="absolute top-0 left-0 right-0 h-full bg-gradient-to-b from-slate-950 via-indigo-950/50 to-zinc-950" />
         <div className="absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-indigo-600/10 rounded-full blur-3xl" />
         <div className="absolute top-1/2 left-1/4 w-64 h-64 bg-violet-500/10 rounded-full blur-3xl" />
         <div className="absolute bottom-1/4 right-1/4 w-64 h-64 bg-blue-500/10 rounded-full blur-3xl" />
@@ -48,24 +70,15 @@ export function StickerHero() {
         ))}
       </div>
 
-      {/* Floating space decorations */}
+      {/* Floating emojis */}
       {floatingEmojis.map((item, i) => (
         <motion.div
           key={i}
           className="absolute text-2xl select-none pointer-events-none hidden md:block"
           style={{ left: item.x, top: item.y }}
           initial={{ opacity: 0, scale: 0 }}
-          animate={{
-            opacity: [0.4, 0.8, 0.4],
-            scale: [0.9, 1.1, 0.9],
-            y: [0, -12, 0],
-          }}
-          transition={{
-            duration: 4,
-            delay: item.delay,
-            repeat: Infinity,
-            ease: "easeInOut",
-          }}
+          animate={{ opacity: [0.4, 0.8, 0.4], scale: [0.9, 1.1, 0.9], y: [0, -12, 0] }}
+          transition={{ duration: 4, delay: item.delay, repeat: Infinity, ease: "easeInOut" }}
         >
           {item.emoji}
         </motion.div>
@@ -93,18 +106,11 @@ export function StickerHero() {
           transition={{ duration: 0.6, delay: 0.2 }}
           className="space-y-4"
         >
-          {/* Cat image as main visual */}
+          {/* Cat image */}
           <motion.div
             className="mb-4 flex justify-center"
-            animate={{
-              y: [0, -16, 0],
-              rotate: [-2, 2, -2],
-            }}
-            transition={{
-              duration: 4,
-              repeat: Infinity,
-              ease: "easeInOut",
-            }}
+            animate={{ y: [0, -16, 0], rotate: [-2, 2, -2] }}
+            transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
           >
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
@@ -123,20 +129,33 @@ export function StickerHero() {
           </h1>
 
           <p className="text-xl text-slate-400 max-w-2xl mx-auto leading-relaxed mt-6">
-            一隻來自宇宙的貓，努力理解人類。
-          </p>
-
-          <p className="text-base text-slate-500 max-w-xl mx-auto leading-relaxed">
-            宇宙可以跨越星系，但牠還是不懂：<br className="hidden sm:block" />
-            主管說的「簡單改一下」到底是什麼意思。
+            一隻來自喵星的地球觀察員，<br className="hidden sm:block" />
+            正努力理解人類為什麼每天都要上班。
           </p>
         </motion.div>
+
+        {/* Rotating quote block — Task 1.2 */}
+        {quote && (
+          <motion.div
+            initial={{ opacity: 0, y: 12 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.45 }}
+            className="mx-auto max-w-xl px-6 py-4 rounded-2xl bg-indigo-950/60 border border-indigo-500/25 backdrop-blur-sm"
+          >
+            <p className="text-indigo-300 text-sm italic leading-relaxed">
+              <span className="text-indigo-400 font-bold mr-1 not-italic text-base">"</span>
+              {quote}
+              <span className="text-indigo-400 font-bold ml-1 not-italic text-base">"</span>
+            </p>
+            <p className="text-right text-indigo-500 text-xs mt-2 font-mono">— MEO-07</p>
+          </motion.div>
+        )}
 
         {/* Slogan card */}
         <motion.div
           initial={{ opacity: 0, scale: 0.9 }}
           animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 0.5, delay: 0.5 }}
+          transition={{ duration: 0.5, delay: 0.6 }}
           className="inline-block"
         >
           <div className="px-8 py-4 rounded-2xl bg-gradient-to-r from-indigo-600/20 to-violet-600/20 border border-indigo-500/30 backdrop-blur-sm">
@@ -150,7 +169,7 @@ export function StickerHero() {
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, delay: 0.7 }}
+          transition={{ duration: 0.5, delay: 0.75 }}
           className="flex flex-col sm:flex-row items-center justify-center gap-4 pt-4"
         >
           <Button
@@ -171,12 +190,12 @@ export function StickerHero() {
           >
             <a href="#character">
               <Zap size={18} />
-              看更多角色設定
+              認識喵喵
             </a>
           </Button>
         </motion.div>
 
-        {/* Stats row */}
+        {/* Stats */}
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
@@ -184,8 +203,8 @@ export function StickerHero() {
           className="flex flex-wrap items-center justify-center gap-8 pt-8 border-t border-slate-800"
         >
           {[
-            { value: "72+", label: "貼圖數量" },
-            { value: "3", label: "系列主題" },
+            { value: "192+", label: "貼圖數量" },
+            { value: "8", label: "系列主題" },
             { value: "MEO-07", label: "主角編號" },
             { value: "2026", label: "宇宙年份" },
           ].map((stat) => (
