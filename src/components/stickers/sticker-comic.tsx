@@ -27,9 +27,9 @@ const chapters: Chapter[] = [
     number: 2,
     title: "已讀不回的秘密",
     subtitle: "喵喵嘗試與人類通訊，卻遭遇了宇宙中最神秘的現象。",
-    image: "",
-    date: "即將推出",
-    status: "coming",
+    image: "/comics/chapter-02.png",
+    date: "2026.08",
+    status: "published",
   },
   {
     number: 3,
@@ -42,7 +42,7 @@ const chapters: Chapter[] = [
 ];
 
 export function StickerComic() {
-  const [lightbox, setLightbox] = useState(false);
+  const [lightboxSrc, setLightboxSrc] = useState<string | null>(null);
   const published = chapters.filter((c) => c.status === "published");
   const coming = chapters.filter((c) => c.status === "coming");
 
@@ -94,7 +94,7 @@ export function StickerComic() {
 
             {/* Comic image — clickable to lightbox */}
             <motion.button
-              onClick={() => setLightbox(true)}
+              onClick={() => setLightboxSrc(ch.image)}
               whileHover={{ scale: 1.01 }}
               whileTap={{ scale: 0.99 }}
               transition={{ type: "spring", stiffness: 300, damping: 25 }}
@@ -161,17 +161,17 @@ export function StickerComic() {
 
       {/* Lightbox */}
       <AnimatePresence>
-        {lightbox && (
+        {lightboxSrc && (
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.2 }}
             className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/92 backdrop-blur-md"
-            onClick={() => setLightbox(false)}
+            onClick={() => setLightboxSrc(null)}
           >
             <button
-              onClick={() => setLightbox(false)}
+              onClick={() => setLightboxSrc(null)}
               className="absolute top-5 right-5 w-10 h-10 rounded-full bg-zinc-800 border border-zinc-700 text-zinc-300 hover:bg-zinc-700 flex items-center justify-center transition-colors z-10"
               aria-label="關閉"
             >
@@ -187,15 +187,15 @@ export function StickerComic() {
               className="max-w-4xl w-full"
             >
               <Image
-                src="/comics/chapter-01.png"
-                alt="太空貓咪日常 第1章 初來地球的觀察員"
+                src={lightboxSrc}
+                alt="太空貓咪日常 漫畫"
                 width={1200}
                 height={680}
                 className="w-full h-auto rounded-2xl shadow-2xl"
                 unoptimized
               />
               <p className="text-center text-slate-500 text-xs mt-3 font-mono">
-                太空貓咪日常 · 第一章 END · 點擊空白處關閉
+                太空貓咪日常 · 點擊空白處關閉
               </p>
             </motion.div>
           </motion.div>
