@@ -35,9 +35,9 @@ const chapters: Chapter[] = [
     number: 3,
     title: "開會是什麼",
     subtitle: "喵喵被邀請參加一個叫「會議」的活動，從此再也不同了。",
-    image: "",
-    date: "即將推出",
-    status: "coming",
+    image: "/comics/chapter-03.png",
+    date: "2026.08",
+    status: "published",
   },
 ];
 
