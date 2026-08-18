@@ -20,10 +20,12 @@ import { cn } from "@/lib/utils";
 
 const navLinks = [
   { href: "/stickers", label: "太空貓咪日常", icon: Rocket },
+  { href: "/stickers#mood", label: "今日心情", icon: Layers },
+  { href: "/stickers#comic", label: "漫畫", icon: BookOpen },
   { href: "/stickers#series", label: "貼圖系列", icon: Layers },
   { href: "/stickers#gallery", label: "圖庫", icon: Globe },
-  { href: "/stickers#universe", label: "世界觀", icon: Globe },
-  { href: "/stickers#character", label: "角色介紹", icon: BookOpen },
+  { href: "/stickers#diary", label: "觀察日記", icon: BookOpen },
+  { href: "/stickers#character", label: "認識喵喵", icon: BookOpen },
 ];
 
 const LINE_STORE_URL =

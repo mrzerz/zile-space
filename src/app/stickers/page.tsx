@@ -4,6 +4,7 @@ import { StickerHero } from "@/components/stickers/sticker-hero";
 import { StickerMood } from "@/components/stickers/sticker-mood";
 import { StickerCharacter } from "@/components/stickers/sticker-character";
 import { StickerQuotes } from "@/components/stickers/sticker-quotes";
+import { StickerComic } from "@/components/stickers/sticker-comic";
 import { StickerSeries } from "@/components/stickers/sticker-series";
 import { StickerGallery } from "@/components/stickers/sticker-gallery";
 import { StickerUniverse } from "@/components/stickers/sticker-universe";
@@ -18,6 +19,7 @@ export default function StickersPage() {
       <StickerMood />
       <StickerCharacter />
       <StickerQuotes />
+      <StickerComic />
       <StickerSeries />
       <StickerGallery />
       <StickerUniverse />
