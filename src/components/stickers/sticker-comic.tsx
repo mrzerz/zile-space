@@ -39,6 +39,14 @@ const chapters: Chapter[] = [
     date: "2026.08",
     status: "published",
   },
+  {
+    number: 4,
+    title: "加班的真相",
+    subtitle: "喵喵發現地球有一種神秘習俗：下班後繼續工作，並稱之為「加班」。",
+    image: "/comics/chapter-04.png",
+    date: "2026.08",
+    status: "published",
+  },
 ];
 
 export function StickerComic() {
