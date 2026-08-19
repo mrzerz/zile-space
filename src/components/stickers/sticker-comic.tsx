@@ -41,8 +41,8 @@ const chapters: Chapter[] = [
   },
   {
     number: 4,
-    title: "加班的真相",
-    subtitle: "喵喵發現地球有一種神秘習俗：下班後繼續工作，並稱之為「加班」。",
+    title: "社畜進化",
+    subtitle: "喵喵逐漸學會人類的生存技能，從「好的」到「已讀不回」，這是一段令人動容的成長故事。",
     image: "/comics/chapter-04.png",
     date: "2026.08",
     status: "published",
