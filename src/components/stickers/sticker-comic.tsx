@@ -47,6 +47,14 @@ const chapters: Chapter[] = [
     date: "2026.08",
     status: "published",
   },
+  {
+    number: 5,
+    title: "社畜生存指南",
+    subtitle: "正式紀錄：地球職場生存法則。喵喵心得：社畜不是天生的，是訓練出來的。",
+    image: "/comics/chapter-05.png",
+    date: "2026.08",
+    status: "published",
+  },
 ];
 
 export function StickerComic() {
